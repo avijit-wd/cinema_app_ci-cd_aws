@@ -106,7 +106,7 @@ workflows:
       - prettier:
           requires:
             - build
-          filterss:
+          filters:
             branches:
               only:
                 - develop
