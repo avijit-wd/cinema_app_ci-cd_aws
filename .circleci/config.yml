@@ -129,7 +129,7 @@ jobs:
       - run:
           name: Deploy to AWS S3
           command: |
-            AWS_BUCKET_NAME=${cat artifacts/cinema_bucket_name.txt | sed 's/\"//g'}
+            AWS_BUCKET_NAME=$(cat artifacts/cinema_bucket_name.txt | sed 's/\"//g')
             echo $AWS_BUCKET_NAME
             if [ "${CIRCLE_BRANCH}" == "master" ]
             then
@@ -151,16 +151,16 @@ jobs:
       - run:
           name: Deploy to AWS CloudFront
           command: |
-            CLOUDFRONT_DISTRIBUTION_ID=${cat artifacts/cloudfront_distribution_id.txt | sed 's/\"//g'}
+            CLOUDFRONT_DISTRIBUTION_ID=$(cat artifacts/cloudfront_distribution_id.txt | sed 's/\"//g')
             echo $CLOUDFRONT_DISTRIBUTION_ID
             aws configure set preview.cloudfront true
-            if [ "${CIRCLE_BRANCH}" == "master"]
-            then 
+            if [ "${CIRCLE_BRANCH}" == "master" ]
+            then
               aws cloudfront create-invalidation --distribution-id ${CLOUDFRONT_DISTRIBUTION_ID} --paths /\*
-            elif [ "${CIRCLE_BRANCH}" == "staging"]
-            then 
+            elif [ "${CIRCLE_BRANCH}" == "staging" ]
+            then
               aws cloudfront create-invalidation --distribution-id ${CLOUDFRONT_DISTRIBUTION_ID} --paths /\*
-            else 
+            else
               aws cloudfront create-invalidation --distribution-id ${CLOUDFRONT_DISTRIBUTION_ID} --paths /\*
             fi
 
